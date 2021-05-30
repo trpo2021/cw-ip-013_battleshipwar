@@ -49,9 +49,71 @@ void print(int size, int** field_M)
         cout << endl;
     }
 }
-shipInput(letter, number, route, state, size, sizeShip, field_M)
+recordingShip()
 {
     ;
+}
+void shipInput(
+        int& letter,
+        int& number,
+        int& route,
+        int& state,
+        int size,
+        int sizeShip,
+        int** field_M)
+{
+    while (state == 0) {
+        cin.clear();
+        cin.sync();
+
+        char let;
+        cin >> let;
+        if (let >= 'A' && let <= 'J') {
+            state = 1;
+            letter = let - 'A';
+        } else {
+            cout << "Неправильно введена координата(буква)" << endl;
+            state = 0;
+            continue;
+        }
+        char str[2] = {' ', ' '};
+
+        cin >> str;
+        int number1 = str[0], number2 = str[1];
+        if (number2 == 0 && number1 >= '0' && number1 <= '9') {
+            number = number1 - '0' - 1;
+            state = 1;
+        } else if (number1 == '1' && number2 >= '0' && number2 - '0' == 0) {
+            number = (10 + number2 - '0') - 1;
+            state = 1;
+        } else {
+            cout << "Неправильно введена координата(цифра)" << endl;
+            state = 0;
+            continue;
+        }
+        if (sizeShip != 1) {
+            cout << "Введите направление (4-влево,8-вверх,6-вправо,2-вниз)"
+                 << endl;
+            char route2;
+            cin >> route2;
+            if (route2 - '0' == up || route2 - '0' == down
+                || route2 - '0' == left_ || route2 - '0' == right_)
+                route = route2 - '0';
+            else {
+                cout << "Нет такого направления" << endl;
+                continue;
+            }
+        }
+
+        if (state == 1) {
+            state = recordingShip();
+            if (state == 0)
+                cout << "Корабль слишком близко к другому" << endl;
+        }
+
+        if (state == 1)
+            ;
+    }
 }
 void createshipPL(int size, int** field_M)
 {
@@ -120,4 +182,3 @@ void createshipPL(int size, int** field_M)
         print(size, field_M);
     }
 }
-
