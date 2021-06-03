@@ -1,4 +1,3 @@
-#include <conio.h>
 #include <iostream>
 #include <locale.h>
 #include <math.h>
@@ -49,213 +48,194 @@ void print(int size, int** field_M)
         cout << endl;
     }
 }
-int recordingShip(int size,int**field_M,int sizeShip,int letter, int number,int route)
+int recordingShip(
+        int size,
+        int** field_M,
+        int sizeShip,
+        int letter,
+        int number,
+        int route)
 {
-	int fl=0;
-	int i,j,i2,j2,k,n,k2,n2;
-	if(route==down)
-	{
-		if(number==0)
-		{
-				i=number;
-				k=i;
-				i2=number+sizeShip;
-				k2=number+sizeShip-1;
-		}
-		else if (number==size-1||number==size-sizeShip)
-		{
-				i=number-1;
-				k=number;
-				i2=size-1;
-				k2=i2;
-		}
-		else if(number!=0&&number!=size-1)
-		{
-				i=number-1;
-				i2=number+sizeShip;
-				k=number;
-				k2=number+sizeShip-1;
-		}
+    int fl = 0;
+    int i, j, i2, j2, k, n, k2, n2;
+    if (route == down) {
+        if (number == 0) {
+            i = number;
+            k = i;
+            i2 = number + sizeShip;
+            k2 = number + sizeShip - 1;
+        } else if (number == size - 1 || number == size - sizeShip) {
+            i = number - 1;
+            k = number;
+            i2 = size - 1;
+            k2 = i2;
+        } else if (number != 0 && number != size - 1) {
+            i = number - 1;
+            i2 = number + sizeShip;
+            k = number;
+            k2 = number + sizeShip - 1;
+        }
 
-	
-		}
-		
-	else if(route==up)
-	{
-		if(number==0)
-		{
-				fl=1;
-		}
-		else if(number==sizeShip-1)
-		{
-				i=0;
-				i2=sizeShip;
-				k=0;
-				k2=sizeShip-1;
-		}
-		else if (number==size-1)
-		{
-				i=number-sizeShip;
-				i2=size-1;
-				k=number-sizeShip+1;
-				k2=i2;
-		}
-		else if(number!=0&&number!=size-1)
-		{
-				i=number-sizeShip;
-				i2=number+1;
-				k=number-sizeShip+1;
-				k2=number;
-		}
-		
-		}
-		
-		else if(route==left_)
-	{
-		
-		if(letter==0)
-		{
-				fl=1;
-	}
-	else if(letter==sizeShip-1)
-		{
-			
-				j=letter-sizeShip+1;
-				j2=letter+1;
-				n=j;
-				n2=j2-1;
-	}
-		else if(letter==size-1)
+    }
 
-			{
-				j=letter-sizeShip;
-				j2=letter;
-				n=letter-sizeShip+1;
-				n2=j2;
-				}	
-				else if(letter!=0&&letter!=size-1)
-				{
-				j=letter-sizeShip;
-				j2=letter+1;	
-				n=letter-sizeShip+1;
-				n2=letter;
-				}
+    else if (route == up) {
+        if (number == 0) {
+            fl = 1;
+        } else if (number == sizeShip - 1) {
+            i = 0;
+            i2 = sizeShip;
+            k = 0;
+            k2 = sizeShip - 1;
+        } else if (number == size - 1) {
+            i = number - sizeShip;
+            i2 = size - 1;
+            k = number - sizeShip + 1;
+            k2 = i2;
+        } else if (number != 0 && number != size - 1) {
+            i = number - sizeShip;
+            i2 = number + 1;
+            k = number - sizeShip + 1;
+            k2 = number;
+        }
 
-		}
-		
-		
-		else if(route==right_)
-	{
-		
-		if(letter==0)
-		{
-				j=letter;
-				j2=letter+sizeShip;
-				n=letter;
-				n2=j2-1;
-	}
-		else if(letter==size-1)
+    }
 
-			{
-					fl=1;
-				}	
-		else if(letter==size-1-sizeShip+1)
+    else if (route == left_) {
+        if (letter == 0) {
+            fl = 1;
+        } else if (letter == sizeShip - 1) {
+            j = letter - sizeShip + 1;
+            j2 = letter + 1;
+            n = j;
+            n2 = j2 - 1;
+        } else if (letter == size - 1)
 
-			{
-				j=letter-1;
-				j2=letter+sizeShip-1;
-				n=j+1;
-				n2=j2;
-				}	
-				else if(letter!=0&&letter!=size-1)
-				{
-				j=letter-1;
-				j2=letter+sizeShip;	
-				n=letter;
-				n2=letter+sizeShip-1;
-				}
-		}
-		 if(route==down||route==up)
-		{
-				if(letter==0)
-		{
-				j=letter;
-				n=j;
-				j2=letter+1;
-				n2=letter;
-	}
-		else if(letter==size-1)
+        {
+            j = letter - sizeShip;
+            j2 = letter;
+            n = letter - sizeShip + 1;
+            n2 = j2;
+        } else if (letter != 0 && letter != size - 1) {
+            j = letter - sizeShip;
+            j2 = letter + 1;
+            n = letter - sizeShip + 1;
+            n2 = letter;
+        }
 
-			{
-				j=letter-1;
-				n=letter;
-				j2=letter;
-				n2=j2;
-				}	
-				else if(letter!=0&&letter!=size-1)
-				{
-						j=letter-1;
-				j2=letter+1;	
-				n=letter;
-				n2=letter;
-				}
-		}
-		else if(route==right_||route==left_)
-		{
-				if(number==0)
-		{
-				i=number;
-				i2=number+1;
-				k=number;
-				k2=number;
-		}
-		else if (number==size-1)
-		{
-				i=number-1;
-				i2=size-1;
-				k=number;
-				k2=i2;
-		}
-		else if(number!=0&&number!=size-1)
-		{
-				i=number-1;
-				i2=number+1;
-				k=number;
-				k2=number;
-		}
-		
-		}
-	if(fl==0)
-	{
-		for(int q=i;q<=i2;q++)
-	{
-		for(int w=j;w<=j2;w++)
-		{
-			if(field_M[q][w]==1)
-			{
-				fl=1;
-				break;
-			}
-		}
-		if(fl==1)
-			break;
-	}
-		}	
-	if (fl==0)
-	{
-			
-		for(int q=k;q<=k2;q++)
-		{
-			for(int w=n;w<=n2;w++)
-			{
-				field_M[q][w]=1;
-			}
-		}
-		return 1;
-	}
-	else
-		return 0;
+    }
 
+    else if (route == right_) {
+        if (letter == 0) {
+            j = letter;
+            j2 = letter + sizeShip;
+            n = letter;
+            n2 = j2 - 1;
+        } else if (letter == size - 1)
+
+        {
+            fl = 1;
+        } else if (letter == size - 1 - sizeShip + 1)
+
+        {
+            j = letter - 1;
+            j2 = letter + sizeShip - 1;
+            n = j + 1;
+            n2 = j2;
+        } else if (letter != 0 && letter != size - 1) {
+            j = letter - 1;
+            j2 = letter + sizeShip;
+            n = letter;
+            n2 = letter + sizeShip - 1;
+        }
+    }
+    if (route == down || route == up) {
+        if (letter == 0) {
+            j = letter;
+            n = j;
+            j2 = letter + 1;
+            n2 = letter;
+        } else if (letter == size - 1)
+
+        {
+            j = letter - 1;
+            n = letter;
+            j2 = letter;
+            n2 = j2;
+        } else if (letter != 0 && letter != size - 1) {
+            j = letter - 1;
+            j2 = letter + 1;
+            n = letter;
+            n2 = letter;
+        }
+    } else if (route == right_ || route == left_) {
+        if (number == 0) {
+            i = number;
+            i2 = number + 1;
+            k = number;
+            k2 = number;
+        } else if (number == size - 1) {
+            i = number - 1;
+            i2 = size - 1;
+            k = number;
+            k2 = i2;
+        } else if (number != 0 && number != size - 1) {
+            i = number - 1;
+            i2 = number + 1;
+            k = number;
+            k2 = number;
+        }
+    }
+    if (fl == 0) {
+        for (int q = i; q <= i2; q++) {
+            for (int w = j; w <= j2; w++) {
+                if (field_M[q][w] == 1) {
+                    fl = 1;
+                    break;
+                }
+            }
+            if (fl == 1)
+                break;
+        }
+    }
+    if (fl == 0) {
+        for (int q = k; q <= k2; q++) {
+            for (int w = n; w <= n2; w++) {
+                field_M[q][w] = 1;
+            }
+        }
+        return 1;
+    } else
+        return 0;
+}
+int checkRoute(int letter, int number, int route, int sizeShip, int size)
+{
+    switch (route) {
+    case left_:
+        if (letter - sizeShip + 1 >= 0)
+            return 1;
+        else
+            return 0;
+        break;
+    case up:
+        if (number - sizeShip + 1 >= 0)
+            return 1;
+        else
+            return 0;
+        break;
+    case right_:
+        if (letter + sizeShip - 1 <= size - 1)
+            return 1;
+        else
+            return 0;
+        break;
+    case down:
+        if (number + sizeShip - 1 <= size - 1)
+            return 1;
+        else
+            return 0;
+        break;
+    }
+    
 }
 void shipInput(
         int& letter,
@@ -310,11 +290,12 @@ void shipInput(
         }
 
         if (state == 1) {
-            state = recordingShip(size,field_M,sizeShip,letter,number,route);	;
+            state = recordingShip(
+                    size, field_M, sizeShip, letter, number, route);
+            ;
             if (state == 0)
                 cout << "Корабль слишком близко к другому" << endl;
         }
-
     }
 }
 void createshipPL(int size, int** field_M)
@@ -384,3 +365,88 @@ void createshipPL(int size, int** field_M)
         print(size, field_M);
     }
 }
+
+void createshipRAND(int size, int** field_M)
+{
+    int state = 0;
+    for (int i = 0; i < single_deck; i++) {
+        int letter;
+        int number;
+        int sizeShip = 1;
+        while (state == 0) {
+            letter = rand() % size;
+            number = rand() % size;
+            state = checkRoute(letter, number, down, sizeShip, size);
+            if (state == 1)
+                state = recordingShip(
+                        size, field_M, sizeShip, letter, number, down);
+        }
+
+        state = 0;
+    }
+
+    for (int i = 0; i < double_deck; i++) {
+        char letter;
+        int number;
+        int route;
+        int sizeShip = 2;
+        while (state == 0) {
+            letter = rand() % size;
+            number = rand() % size;
+            int count = rand() % 4;
+            route = 0;
+            for (int i = 0; i <= count; i++) {
+                route += 2;
+            }
+            state = checkRoute(letter, number, route, sizeShip, size);
+            if (state == 1)
+                state = recordingShip(
+                        size, field_M, sizeShip, letter, number, route);
+        }
+        state = 0;
+    }
+
+    for (int i = 0; i < three_deck; i++) {
+        char letter;
+        int number;
+        int route;
+        int sizeShip = 3;
+        while (state == 0) {
+            letter = rand() % size;
+            number = rand() % size;
+            int count = rand() % 4;
+            route = 0;
+            for (int i = 0; i <= count; i++) {
+                route += 2;
+            }
+            state = checkRoute(letter, number, route, sizeShip, size);
+            if (state == 1)
+                state = recordingShip(
+                        size, field_M, sizeShip, letter, number, route);
+        }
+        state = 0;
+    }
+
+    for (int i = 0; i < four_deck; i++) {
+        char letter;
+        int number;
+        int route;
+        int sizeShip = 4;
+        while (state == 0) {
+            letter = rand() % size;
+            number = rand() % size;
+            int count = rand() % 4;
+            route = 0;
+            for (int i = 0; i <= count; i++) {
+                route += 2;
+            }
+            state = checkRoute(letter, number, route, sizeShip, size);
+            if (state == 1)
+                state = recordingShip(
+                        size, field_M, sizeShip, letter, number, route);
+        }
+
+        state = 0;
+    }
+}
+
