@@ -1,5 +1,4 @@
 #include "ranking.h"
-#include <conio.h>
 #include <iostream>
 #include <locale.h>
 #include <stdio.h>
@@ -19,6 +18,21 @@ int main()
         field_P2_s[i] = new int[sizeField];
         field_P2_m[i] = new int[sizeField];
     }
+    createshipPL(sizeField,field_P1_s);
+
+
+
+	for(int i=0;i<sizeField;i++)
+	{
+		for(int j=0;j<sizeField;j++)
+		{
+			field_P1_s[i][j]=0;
+			field_P1_m[i][j]=0;
+			field_P2_s[i][j]=0;
+			field_P2_m[i][j]=0;
+		}
+	}	
+	  createshipPL(sizeField,field_P1_s);
     delete[] field_P1_m;
     delete[] field_P2_m;
     delete[] field_P1_s;
