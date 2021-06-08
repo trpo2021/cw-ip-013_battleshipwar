@@ -1,3 +1,4 @@
+#include "assistance.h"
 #include <iostream>
 #include <locale.h>
 #include <math.h>
@@ -16,38 +17,8 @@ const int down = 2;
 const int left_ = 4;
 const int right_ = 6;
 
-void print(int size, int** field_M)
-{
-    cout << "    ";
-    char M[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
-    for (int i = 0; i < size; i++) {
-        cout << M[i] << " ";
-    }
-    cout << endl;
-    int k = 1;
-    for (int i = 0; i < size; i++) {
-        if (k >= size) {
-            cout << " " << k << " ";
-            for (int j = 0; j < size; j++) {
-                if (field_M[i][j] == 0 || field_M[i][j] == 3)
-                    cout << "  ";
-                else
-                    cout << field_M[i][j] << " ";
-            }
+const int easy_size = 10;
 
-        } else {
-            cout << "  " << k << " ";
-            for (int j = 0; j < size; j++) {
-                if (field_M[i][j] == 0 || field_M[i][j] == 3)
-                    cout << "  ";
-                else
-                    cout << field_M[i][j] << " ";
-            }
-        }
-        k++;
-        cout << endl;
-    }
-}
 int recordingShip(
         int size,
         int** field_M,
@@ -235,7 +206,6 @@ int checkRoute(int letter, int number, int route, int sizeShip, int size)
             return 0;
         break;
     }
-    
 }
 void shipInput(
         int& letter,
@@ -246,13 +216,18 @@ void shipInput(
         int sizeShip,
         int** field_M)
 {
+    int end_letter;
+    if (size == easy_size)
+        end_letter = 'J';
+    else
+        end_letter = 'O';
     while (state == 0) {
         cin.clear();
         cin.sync();
 
         char let;
         cin >> let;
-        if (let >= 'A' && let <= 'J') {
+        if (let >= 'A' && let <= end_letter) {
             state = 1;
             letter = let - 'A';
         } else {
@@ -264,10 +239,17 @@ void shipInput(
 
         cin >> str;
         int number1 = str[0], number2 = str[1];
+        int end_number;
+        if (size == easy_size)
+            end_number = 0;
+        else
+            end_number = 5;
         if (number2 == 0 && number1 >= '0' && number1 <= '9') {
             number = number1 - '0' - 1;
             state = 1;
-        } else if (number1 == '1' && number2 >= '0' && number2 - '0' == 0) {
+        } else if (
+                number1 == '1' && number2 >= '0'
+                && number2 - '0' <= end_number) {
             number = (10 + number2 - '0') - 1;
             state = 1;
         } else {
@@ -292,10 +274,12 @@ void shipInput(
         if (state == 1) {
             state = recordingShip(
                     size, field_M, sizeShip, letter, number, route);
-            ;
             if (state == 0)
                 cout << "Корабль слишком близко к другому" << endl;
         }
+
+        if (state == 1)
+            ;
     }
 }
 void createshipPL(int size, int** field_M)
@@ -304,7 +288,12 @@ void createshipPL(int size, int** field_M)
     print(size, field_M);
     int state;
     int sizeShip;
-    for (int i = 0; i < single_deck; i++) {
+    int changeQ;
+    if (size == easy_size)
+        changeQ = 0;
+    else
+        changeQ = 1;
+    for (int i = 0; i < single_deck + changeQ; i++) {
         cout << "Введите координату однопалубного корабля(например:D2)" << endl;
         int letter;
         int number;
@@ -318,7 +307,7 @@ void createshipPL(int size, int** field_M)
         print(size, field_M);
     }
 
-    for (int i = 0; i < double_deck; i++) {
+    for (int i = 0; i < double_deck + changeQ; i++) {
         cout << "Введите первую координату двухпалубного корабля и "
                 "направление(например:D2)"
              << endl;
@@ -333,7 +322,7 @@ void createshipPL(int size, int** field_M)
         print(size, field_M);
     }
 
-    for (int i = 0; i < three_deck; i++) {
+    for (int i = 0; i < three_deck + changeQ; i++) {
         cout << "Введите первую координату трехпалубного корабля и "
                 "направление(например:D2)"
              << endl;
@@ -349,7 +338,7 @@ void createshipPL(int size, int** field_M)
         print(size, field_M);
     }
 
-    for (int i = 0; i < four_deck; i++) {
+    for (int i = 0; i < four_deck + changeQ; i++) {
         cout << "Введите первую координату четырехпалубного корабля и "
                 "направление(например:D2)"
              << endl;
@@ -369,7 +358,12 @@ void createshipPL(int size, int** field_M)
 void createshipRAND(int size, int** field_M)
 {
     int state = 0;
-    for (int i = 0; i < single_deck; i++) {
+    int changeQ;
+    if (size == easy_size)
+        changeQ = 0;
+    else
+        changeQ = 1;
+    for (int i = 0; i < single_deck + changeQ; i++) {
         int letter;
         int number;
         int sizeShip = 1;
@@ -385,7 +379,7 @@ void createshipRAND(int size, int** field_M)
         state = 0;
     }
 
-    for (int i = 0; i < double_deck; i++) {
+    for (int i = 0; i < double_deck + changeQ; i++) {
         char letter;
         int number;
         int route;
@@ -406,7 +400,7 @@ void createshipRAND(int size, int** field_M)
         state = 0;
     }
 
-    for (int i = 0; i < three_deck; i++) {
+    for (int i = 0; i < three_deck + changeQ; i++) {
         char letter;
         int number;
         int route;
@@ -426,27 +420,3 @@ void createshipRAND(int size, int** field_M)
         }
         state = 0;
     }
-
-    for (int i = 0; i < four_deck; i++) {
-        char letter;
-        int number;
-        int route;
-        int sizeShip = 4;
-        while (state == 0) {
-            letter = rand() % size;
-            number = rand() % size;
-            int count = rand() % 4;
-            route = 0;
-            for (int i = 0; i <= count; i++) {
-                route += 2;
-            }
-            state = checkRoute(letter, number, route, sizeShip, size);
-            if (state == 1)
-                state = recordingShip(
-                        size, field_M, sizeShip, letter, number, route);
-        }
-
-        state = 0;
-    }
-}
-
