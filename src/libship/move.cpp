@@ -1,5 +1,11 @@
 #include "assistance.h"
+#include "ranking.h"
 #include <iostream>
+#include <locale.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 using namespace std;
 
@@ -8,18 +14,276 @@ const int down = 2;
 const int left_ = 4;
 const int right_ = 6;
 
-input_ship()
+void input_ship(int& letter, int& number, int size)
+{
+    int state = 0, part_state = 0;
+
+    while (state == 0) {
+        cin.clear();
+        cin.sync();
+        cout << "Введите клетку, в которую хотите выстрелить (Пример: D2)"
+             << endl;
+        char let;
+        cin >> let;
+        if (let >= 'A' && let <= 'J') {
+            state = 1;
+            letter = let - 'A';
+        } else {
+            cout << "Неправильно введена координата (буква)" << endl;
+            continue;
+        }
+        char str[2] = {' ', ' '};
+
+        cin >> str;
+        int number1 = str[0], number2 = str[1];
+        if (number2 == 0 && number1 >= '0' && number1 <= '9') {
+            number = number1 - '0' - 1;
+            state = 1;
+        } else if (number1 == '1' && number2 >= '0' && number2 - '0' == 0) {
+            number = (10 + number2 - '0') - 1;
+            state = 1;
+        } else
+            cout << "Неправильно введена координата (цифра)" << endl;
+    }
+}
+
+int end(int** field_P1_ship, int** field_P2_ship, int size, int sel)
+{
+    int count = 0;
+
+    if (sel == 1) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (field_P2_ship[i][j] == 1)
+                    return 1;
+            }
+        }
+    } else {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (field_P1_ship[i][j] == 1)
+                    return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+int check_killed()
 {
     ;
 }
 
-Computer()
+void move_state(
+        int** field_P1_move,
+        int** field_P2_ship,
+        int size,
+        int& murderer,
+        int letter,
+        int number,
+        int& state)
+{
+    if (field_P1_move[number][letter] == 1
+        || field_P1_move[number][letter] == 3) {
+        state = 3;
+        murderer = 0;
+    }
+
+    else if (field_P2_ship[number][letter] == 1) {
+        field_P2_ship[number][letter] = 2;
+        field_P1_move[number][letter] = 2;
+        murderer = 1;
+        if (check_killed() == 0)
+            state = 1;
+        else
+            state = 2;
+
+    } else if (field_P2_ship[number][letter] == 0) {
+        field_P1_move[number][letter] = 1;
+        state = 0;
+        murderer = 0;
+    } else if (field_P2_ship[number][letter] == 2) {
+        state = 3;
+        murderer = 0;
+    } else if (field_P2_ship[number][letter] == 3) {
+        state = 3;
+        murderer = 0;
+    }
+}
+void near_vert(int** field_P2_move, int letter, int number, int n, int side)
 {
     ;
 }
-end()
+void near_horiz()
 {
     ;
+}
+
+void near_the_ship()
+{
+    ;
+}
+void kill_ship(
+        int** field_P2_move,
+        int size,
+        int let_rep,
+        int num_rep,
+        int& letter,
+        int& number)
+{
+    int route = 0;
+    int n = size - 1;
+    int N = 0, S = 0, W = 0, E = 0;
+    if (num_rep - 1 >= 0 && num_rep - 1 <= n) {
+        N++;
+    }
+    if (num_rep + 1 >= 0 && num_rep + 1 <= n) {
+        S++;
+    }
+    if (let_rep + 1 >= 0 && let_rep + 1 <= n) {
+        E++;
+    }
+    if (let_rep - 1 >= 0 && let_rep - 1 <= n) {
+        W++;
+    }
+    int status = 0;
+    if (N != 0 && field_P2_move[num_rep - N][let_rep] == 2) {
+        route = up;
+    }
+    if (S != 0 && field_P2_move[num_rep + S][let_rep] == 2) {
+        route = up;
+    }
+    if (E != 0 && field_P2_move[num_rep][let_rep + E] == 2) {
+        route = left_;
+    }
+    if (W != 0 && field_P2_move[num_rep][let_rep - W] == 2) {
+        route = left_;
+    }
+    if (route == 0) {
+        while (status == 0) {
+            int a = rand() % 4 + 1;
+            if (a == 1 && N != 0 && field_P2_move[num_rep - N][let_rep] == 0) {
+                status = 1;
+                number = num_rep - N;
+                letter = let_rep;
+
+            } else if (
+                    a == 2 && S != 0
+                    && field_P2_move[num_rep + S][let_rep] == 0) {
+                status = 1;
+                number = num_rep + S;
+                letter = let_rep;
+
+            } else if (
+                    a == 2 && E != 0
+                    && field_P2_move[num_rep][let_rep + E] == 0) {
+                status = 1;
+                number = num_rep;
+                letter = let_rep + E;
+
+            } else if (
+                    a == 2 && W != 0
+                    && field_P2_move[num_rep][let_rep - W] == 0) {
+                status = 1;
+                number = num_rep;
+                letter = let_rep - W;
+            }
+        }
+    } else {
+        if (route == left_) {
+            if (field_P2_move[num_rep][let_rep + E] == 0) {
+                number = num_rep;
+                letter = let_rep + E;
+            } else if (field_P2_move[num_rep][let_rep - W] == 0) {
+                number = num_rep;
+                letter = let_rep - W;
+            } else {
+                while (E != 0 && field_P2_move[num_rep][let_rep + E] == 2) {
+                    let_rep = let_rep + E;
+                    letter = let_rep + E;
+                    W = 0;
+                }
+                while (W != 0 && field_P2_move[num_rep][let_rep - W] == 2) {
+                    let_rep = let_rep - W;
+                    letter = let_rep - W;
+                }
+                number = num_rep;
+            }
+        } else {
+            if (field_P2_move[num_rep - N][let_rep] == 0) {
+                number = num_rep - N;
+                letter = let_rep;
+            } else if (field_P2_move[num_rep + S][let_rep] == 0) {
+                number = num_rep + S;
+                letter = let_rep;
+            } else {
+                while (N != 0 && field_P2_move[num_rep - N][let_rep] == 2) {
+                    num_rep = num_rep - N;
+                    number = num_rep - N;
+                    S = 0;
+                }
+                while (S != 0 && field_P2_move[num_rep + S][let_rep] == 2) {
+                    num_rep = num_rep + S;
+                    number = num_rep + S;
+                }
+                letter = let_rep;
+            }
+        }
+    }
+}
+void Computer_move(
+        int** field_P1_move,
+        int** field_P2_ship,
+        int size,
+        int& murderer,
+        int& state,
+        int& let_rep,
+        int& num_rep,
+        int& died,
+        int& letter,
+        int& number)
+{
+    int status = 0;
+    int n = size - 1;
+    while (status == 0) {
+        if (died == 1) {
+            kill_ship(field_P1_move, size, let_rep, num_rep, letter, number);
+        }
+        if (died != 1) {
+            letter = rand() % (size);
+            number = rand() % (size);
+        }
+        move_state(
+                field_P1_move,
+                field_P2_ship,
+                size,
+                murderer,
+                letter,
+                number,
+                state);
+        switch (state) {
+        case 0:
+            status = 1;
+            break;
+        case 1:
+            let_rep = letter;
+            num_rep = number;
+            status = 1;
+            died = 1;
+            break;
+        case 2:
+            near_the_ship();
+            let_rep = -1;
+            num_rep = -1;
+            status = 1;
+            died = 0;
+
+            break;
+        case 3:
+            status = 0;
+            break;
+        }
+    }
 }
 void move(
         int** field_P1_ship,
@@ -29,23 +293,45 @@ void move(
         int size)
 {
     int queue = rand() % 2 + 1;
-    int queue;
+    int sel = queue;
     int state;
-    int murder;
+    int murderer = 0;
+    int let_rep = -1;
+    int num_rep = -1;
+    int died = 0;
+    int route1 = 0;
     while (1) {
         print_field(field_P1_move, field_P1_ship, field_P2_move, size);
         int number, letter;
         cout << "Ходит игрок " << queue << endl;
         if (queue == 1) {
-            input_ship();
+            input_ship(letter, number, size);
+            move_state(
+                    field_P1_move,
+                    field_P2_ship,
+                    size,
+                    murderer,
+                    letter,
+                    number,
+                    state);
         }
 
         else {
-            Computer();
+            Computer_move(
+                    field_P2_move,
+                    field_P1_ship,
+                    size,
+                    murderer,
+                    state,
+                    let_rep,
+                    num_rep,
+                    died,
+                    letter,
+                    number);
         }
         print_field(field_P1_move, field_P1_ship, field_P2_move, size);
         cout << "Ходит игрок " << queue << endl;
-        cout << "ход:" << char(65 + letter) << number + 1 << endl;
+        cout << "Ход:" << char(65 + letter) << number + 1 << endl;
         if (murderer == 0 && queue == 1) {
             queue = 2;
         } else if (murderer == 0 && queue == 2) {
@@ -53,19 +339,19 @@ void move(
         }
         switch (state) {
         case 0:
-            cout << "мимо" << endl;
+            cout << "Мимо" << endl;
             break;
         case 1:
-            cout << "попал" << endl;
+            cout << "Попал" << endl;
             break;
         case 2:
-            cout << "убил" << endl;
+            cout << "Убил" << endl;
             break;
         case 3:
-            cout << "повтор" << endl;
+            cout << "Повтор" << endl;
             break;
         }
-        if (end())
+        if (end(field_P1_ship, field_P2_ship, size, queue) == 0)
             break;
         system("pause");
     }
