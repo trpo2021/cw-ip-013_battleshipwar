@@ -69,9 +69,44 @@ int end(int** field_P1_ship, int** field_P2_ship, int size, int sel)
 
     return 0;
 }
-int check_killed()
+int check_killed(int letter, int number, int** field_P2_ship, int size)
 {
-    ;
+    int length = 0;
+    int n = size - 1;
+    int N = 1, S = 1, W = 1, E = 1;
+
+    while (number - N >= 0 && number - N <= n
+           && (field_P2_ship[number - N][letter] == 1
+               || field_P2_ship[number - N][letter] == 2)) {
+        if (field_P2_ship[number - N][letter] == 1)
+            length++;
+        N++;
+    }
+    while (number + S >= 0 && number + S <= n
+           && (field_P2_ship[number + S][letter] == 1
+               || field_P2_ship[number + S][letter] == 2)) {
+        if (field_P2_ship[number + S][letter] == 1)
+            length++;
+        S++;
+    }
+    while (letter + E >= 0 && letter + E <= n
+           && (field_P2_ship[number][letter + E] == 1
+               || field_P2_ship[number][letter + E] == 2)) {
+        if (field_P2_ship[number][letter + E] == 1)
+            length++;
+        E++;
+    }
+    while (letter - W >= 0 && letter - W <= n
+           && (field_P2_ship[number][letter - W] == 1
+               || field_P2_ship[number][letter - W] == 2)) {
+        if (field_P2_ship[number][letter - W] == 1)
+            length++;
+        W++;
+    }
+    if (length == 0)
+        return 1;
+    else
+        return 0;
 }
 
 void move_state(
@@ -93,7 +128,7 @@ void move_state(
         field_P2_ship[number][letter] = 2;
         field_P1_move[number][letter] = 2;
         murderer = 1;
-        if (check_killed() == 0)
+        if (check_killed(letter, number, field_P2_ship, size) == 0)
             state = 1;
         else
             state = 2;
@@ -112,16 +147,109 @@ void move_state(
 }
 void near_vert(int** field_P2_move, int letter, int number, int n, int side)
 {
-    ;
+    if (number + side >= 0 && number + side <= n) {
+        if (field_P2_move[number + side][letter] != 1)
+            field_P2_move[number + side][letter] = 3;
+        if (letter - 1 >= 0 && letter - 1 <= n
+            && field_P2_move[number + side][letter - 1] != 1) {
+            field_P2_move[number + side][letter - 1] = 3;
+        }
+        if (letter + 1 >= 0 && letter + 1 <= n
+            && field_P2_move[number + side][letter + 1] != 1) {
+            field_P2_move[number + side][letter + 1] = 3;
+        }
+    }
+    while (number >= 0 && number <= n && field_P2_move[number][letter] == 2) {
+        if (letter - 1 >= 0 && letter - 1 <= n
+            && field_P2_move[number][letter - 1] != 1) {
+            field_P2_move[number][letter - 1] = 3;
+        }
+        if (letter + 1 >= 0 && letter + 1 <= n
+            && field_P2_move[number][letter + 1] != 1) {
+            field_P2_move[number][letter + 1] = 3;
+        }
+        number = number - side;
+    }
+    if (number >= 0 && number <= n) {
+        if (field_P2_move[number][letter] != 1)
+            field_P2_move[number][letter] = 3;
+        if (letter - 1 >= 0 && letter - 1 <= n
+            && field_P2_move[number][letter - 1] != 1) {
+            field_P2_move[number][letter - 1] = 3;
+        }
+        if (letter + 1 >= 0 && letter + 1 <= n
+            && field_P2_move[number][letter + 1] != 1) {
+            field_P2_move[number][letter + 1] = 3;
+        }
+    }
 }
-void near_horiz()
+void near_horiz(int** field_P2_move, int letter, int number, int n, int side)
 {
-    ;
+    if (letter + side >= 0 && letter + side <= n) {
+        if (field_P2_move[number][letter + side] != 1)
+            field_P2_move[number][letter + side] = 3;
+        if (number - 1 >= 0 && number - 1 <= n
+            && field_P2_move[number - 1][letter + side] != 1) {
+            field_P2_move[number - 1][letter + side] = 3;
+        }
+        if (number + 1 >= 0 && number + 1 <= n
+            && field_P2_move[number + 1][letter + side] != 1) {
+            field_P2_move[number + 1][letter + side] = 3;
+        }
+    }
+    while (letter >= 0 && letter <= n && field_P2_move[number][letter] == 2) {
+        if (number - 1 >= 0 && number - 1 <= n
+            && field_P2_move[number - 1][letter] != 1) {
+            field_P2_move[number - 1][letter] = 3;
+        }
+        if (number + 1 >= 0 && number + 1 <= n
+            && field_P2_move[number + 1][letter] != 1) {
+            field_P2_move[number + 1][letter] = 3;
+        }
+        letter = letter - side;
+    }
+    if (letter >= 0 && letter <= n) {
+        if (field_P2_move[number][letter] != 1)
+            field_P2_move[number][letter] = 3;
+        if (number - 1 >= 0 && number - 1 <= n
+            && field_P2_move[number - 1][letter] != 1) {
+            field_P2_move[number - 1][letter] = 3;
+        }
+        if (number + 1 >= 0 && number + 1 <= n
+            && field_P2_move[number + 1][letter] != 1) {
+            field_P2_move[number + 1][letter] = 3;
+        }
+    }
 }
 
-void near_the_ship()
+void near_the_ship(int** field_P2_move, int letter, int number, int size)
 {
-    ;
+    int n = size - 1;
+
+    int N = 1, S = 1, W = 1, E = 1;
+    if (number - N >= 0 && number - N <= n
+        && field_P2_move[number - N][letter] == 2) {
+        int side = N;
+        near_vert(field_P2_move, letter, number, n, side);
+    } else if (
+            number + S >= 0 && number + S <= n
+            && field_P2_move[number + S][letter] == 2) {
+        int side = -S;
+        near_vert(field_P2_move, letter, number, n, side);
+    } else if (
+            letter + E >= 0 && letter + E <= n
+            && field_P2_move[number][letter + E] == 2) {
+        int side = -E;
+        near_horiz(field_P2_move, letter, number, n, side);
+    } else if (
+            letter - W >= 0 && letter - W <= n
+            && field_P2_move[number][letter - W] == 2) {
+        int side = W;
+        near_horiz(field_P2_move, letter, number, n, side);
+    } else {
+        int side = -S;
+        near_vert(field_P2_move, letter, number, n, side);
+    }
 }
 void kill_ship(
         int** field_P2_move,
@@ -272,7 +400,7 @@ void Computer_move(
             died = 1;
             break;
         case 2:
-            near_the_ship();
+            near_the_ship(field_P1_move, letter, number, size);
             let_rep = -1;
             num_rep = -1;
             status = 1;
