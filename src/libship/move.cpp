@@ -14,9 +14,20 @@ const int down = 2;
 const int left_ = 4;
 const int right_ = 6;
 
+const int easy_size = 10;
+
 void input_ship(int& letter, int& number, int size)
 {
     int state = 0, part_state = 0;
+    char end_letter;
+    int end_number;
+    if (size == easy_size) {
+        end_letter = 'J';
+        end_number = 0;
+    } else {
+        end_letter = 'O';
+        end_number = 5;
+    }
 
     while (state == 0) {
         cin.clear();
@@ -25,7 +36,7 @@ void input_ship(int& letter, int& number, int size)
              << endl;
         char let;
         cin >> let;
-        if (let >= 'A' && let <= 'J') {
+        if (let >= 'A' && let <= end_letter) {
             state = 1;
             letter = let - 'A';
         } else {
@@ -39,11 +50,13 @@ void input_ship(int& letter, int& number, int size)
         if (number2 == 0 && number1 >= '0' && number1 <= '9') {
             number = number1 - '0' - 1;
             state = 1;
-        } else if (number1 == '1' && number2 >= '0' && number2 - '0' == 0) {
+        } else if (
+                number1 == '1' && number2 >= '0'
+                && number2 - '0' <= end_number) {
             number = (10 + number2 - '0') - 1;
             state = 1;
         } else
-            cout << "Неправильно введена координата (цифра)" << endl;
+            cout << "Неверно введена координата (цифра)" << endl;
     }
 }
 
@@ -418,7 +431,8 @@ void move(
         int** field_P1_move,
         int** field_P2_ship,
         int** field_P2_move,
-        int size)
+        int size,
+        int mode)
 {
     int queue = rand() % 2 + 1;
     int sel = queue;
@@ -431,33 +445,63 @@ void move(
     while (1) {
         print_field(field_P1_move, field_P1_ship, field_P2_move, size);
         int number, letter;
-        cout << "Ходит игрок " << queue << endl;
-        if (queue == 1) {
-            input_ship(letter, number, size);
-            move_state(
-                    field_P1_move,
-                    field_P2_ship,
-                    size,
-                    murderer,
-                    letter,
-                    number,
-                    state);
+        if (mode == 1) {
+            cout << "Ходит игрок " << queue << endl;
+            if (queue == 1) {
+                input_ship(letter, number, size);
+                move_state(
+                        field_P1_move,
+                        field_P2_ship,
+                        size,
+                        murderer,
+                        letter,
+                        number,
+                        state);
+            }
+
+            else {
+                Computer_move(
+                        field_P2_move,
+                        field_P1_ship,
+                        size,
+                        murderer,
+                        state,
+                        let_rep,
+                        num_rep,
+                        died,
+                        letter,
+                        number);
+            }
+            print_field(field_P1_move, field_P1_ship, field_P2_move, size);
+        } else {
+            print_field_move2(field_P1_move, field_P2_move, size);
+            cout << "Ходит игрок " << queue << endl;
+            if (queue == 1) {
+                input_ship(letter, number, size);
+                move_state(
+                        field_P1_move,
+                        field_P2_ship,
+                        size,
+                        murderer,
+                        letter,
+                        number,
+                        state);
+            }
+
+            else {
+                input_ship(letter, number, size);
+                move_state(
+                        field_P2_move,
+                        field_P1_ship,
+                        size,
+                        murderer,
+                        letter,
+                        number,
+                        state);
+            }
+            print_field_move2(field_P1_move, field_P2_move, size);
         }
 
-        else {
-            Computer_move(
-                    field_P2_move,
-                    field_P1_ship,
-                    size,
-                    murderer,
-                    state,
-                    let_rep,
-                    num_rep,
-                    died,
-                    letter,
-                    number);
-        }
-        print_field(field_P1_move, field_P1_ship, field_P2_move, size);
         cout << "Ходит игрок " << queue << endl;
         cout << "Ход:" << char(65 + letter) << number + 1 << endl;
         if (murderer == 0 && queue == 1) {
