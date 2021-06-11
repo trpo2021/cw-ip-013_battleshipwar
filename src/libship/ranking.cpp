@@ -7,17 +7,6 @@
 #include <string.h>
 #include <time.h>
 using namespace std;
-const int single_deck = 4;
-const int double_deck = 3;
-const int three_deck = 2;
-const int four_deck = 1;
-
-const int up = 8;
-const int down = 2;
-const int left_ = 4;
-const int right_ = 6;
-
-const int easy_size = 10;
 
 int recordingShip(
         int size,
@@ -27,6 +16,10 @@ int recordingShip(
         int number,
         int route)
 {
+    const int up = 8;
+    const int down = 2;
+    const int left_ = 4;
+    const int right_ = 6;
     int fl = 0;
     int i, j, i2, j2, k, n, k2, n2;
     if (route == down) {
@@ -180,6 +173,10 @@ int recordingShip(
 }
 int checkRoute(int letter, int number, int route, int sizeShip, int size)
 {
+    const int up = 8;
+    const int down = 2;
+    const int left_ = 4;
+    const int right_ = 6;
     switch (route) {
     case left_:
         if (letter - sizeShip + 1 >= 0)
@@ -216,6 +213,15 @@ void shipInput(
         int sizeShip,
         int** field_M)
 {
+    const int easy_size = 10;
+    const int single_deck = 4;
+    const int double_deck = 3;
+    const int three_deck = 2;
+    const int four_deck = 1;
+    const int up = 8;
+    const int down = 2;
+    const int left_ = 4;
+    const int right_ = 6;
     int end_letter;
     if (size == easy_size)
         end_letter = 'J';
@@ -284,6 +290,11 @@ void shipInput(
 }
 void createshipPL(int size, int** field_M)
 {
+    const int easy_size = 10;
+    const int single_deck = 4;
+    const int double_deck = 3;
+    const int three_deck = 2;
+    const int four_deck = 1;
     system("CLS");
     print(size, field_M);
     int state;
@@ -357,6 +368,7 @@ void createshipPL(int size, int** field_M)
 
 void createshipRAND(int size, int** field_M)
 {
+    const int easy_size = 10;
     int state = 0;
     int changeQ;
     if (size == easy_size)
@@ -420,3 +432,27 @@ void createshipRAND(int size, int** field_M)
         }
         state = 0;
     }
+
+    for (int i = 0; i < four_deck + changeQ; i++) {
+        char letter;
+        int number;
+        int route;
+        int sizeShip = 4;
+        while (state == 0) {
+            letter = rand() % size;
+            number = rand() % size;
+            int count = rand() % 4;
+            route = 0;
+            for (int i = 0; i <= count; i++) {
+                route += 2;
+            }
+            state = checkRoute(letter, number, route, sizeShip, size);
+            if (state == 1)
+                state = recordingShip(
+                        size, field_M, sizeShip, letter, number, route);
+        }
+
+        state = 0;
+    }
+}
+
