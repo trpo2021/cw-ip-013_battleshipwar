@@ -1,42 +1,38 @@
-#include "ranking.h"
+#include "menu.h"
 #include <iostream>
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 using namespace std;
+
 int main()
 {
-    int sizeField = 10;
-    int** field_P1_s = new int*[sizeField];
-    int** field_P1_m = new int*[sizeField];
-    int** field_P2_s = new int*[sizeField];
-    int** field_P2_m = new int*[sizeField];
-    for (int i = 0; i < sizeField; i++) {
-        field_P1_s[i] = new int[sizeField];
-        field_P1_m[i] = new int[sizeField];
-        field_P2_s[i] = new int[sizeField];
-        field_P2_m[i] = new int[sizeField];
+    setlocale(LC_ALL, "Russian");
+    cout << "Добро пожаловать в игру Морской бой!" << endl;
+    system("pause");
+    system("CLS");
+    cout << "Начать игру - 1" << endl;
+    cout << "Об игре - 2" << endl;
+    cout << "Выход - 3" << endl;
+    while (1) {
+        char choice;
+        cin.clear();
+        cin.sync();
+        cin >> choice;
+        if (choice == '1') {
+            system("CLS");
+            play();
+        } else if (choice == '2') {
+            system("CLS");
+            about_play();
+        } else if (choice == '3') {
+            return 0;
+        }
+        system("CLS");
+        cout << "Начать игру - 1" << endl;
+        cout << "Об игре - 2" << endl;
+        cout << "Выход - 3" << endl;
     }
-    createshipPL(sizeField,field_P1_s);
-
-
-
-	for(int i=0;i<sizeField;i++)
-	{
-		for(int j=0;j<sizeField;j++)
-		{
-			field_P1_s[i][j]=0;
-			field_P1_m[i][j]=0;
-			field_P2_s[i][j]=0;
-			field_P2_m[i][j]=0;
-		}
-	}	
-	  createshipPL(sizeField,field_P1_s);
-    delete[] field_P1_m;
-    delete[] field_P2_m;
-    delete[] field_P1_s;
-    delete[] field_P2_s;
     return 0;
 }
 
