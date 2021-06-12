@@ -7,4 +7,4 @@ void near_horiz(int**field_P2_move,int letter,int number,int n,int side);
 void near_the_ship(int**field_P2_move,int letter,int number,int size);
 void kill_ship(int**field_P2_move,int size,int let_rep,int num_rep,int &letter,int &number);
 void Computer_move(int**field_P1_move,int**field_P2_ship,int size,int &murderer,int &state,int &let_rep,int &num_rep,int &died,int &letter,int &number);
-void move(int**field_P1_ship,int**field_P1_move,int**field_P2_ship,int**field_P2_move,int size,int mode);
+void move(int**field_P1_ship,int**field_P1_move,int**field_P2_ship,int**field_P2_move,int size,int mode,int &win,char* surname,char* surname2);
