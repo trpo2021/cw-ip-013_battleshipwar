@@ -1,8 +1,8 @@
-#include "menu.h"
 #include <iostream>
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "libship/menu.h"
 using namespace std;
 
 int main()
