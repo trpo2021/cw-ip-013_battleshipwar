@@ -9,15 +9,9 @@
 #include <time.h>
 using namespace std;
 
-const int up = 8;
-const int down = 2;
-const int left_ = 4;
-const int right_ = 6;
-
-const int easy_size = 10;
-
 void input_ship(int& letter, int& number, int size)
 {
+    const int easy_size = 10;
     int state = 0, part_state = 0;
     char end_letter;
     int end_number;
@@ -32,7 +26,7 @@ void input_ship(int& letter, int& number, int size)
     while (state == 0) {
         cin.clear();
         cin.sync();
-        cout << "Введите клетку, в которую хотите выстрелить (Пример: D2)"
+        cout << "Введите клетку в которую хотите выстрелить (Например:D2)"
              << endl;
         char let;
         cin >> let;
@@ -40,7 +34,7 @@ void input_ship(int& letter, int& number, int size)
             state = 1;
             letter = let - 'A';
         } else {
-            cout << "Неправильно введена координата (буква)" << endl;
+            cout << "Неправильно введена координата(буква)" << endl;
             continue;
         }
         char str[2] = {' ', ' '};
@@ -56,7 +50,7 @@ void input_ship(int& letter, int& number, int size)
             number = (10 + number2 - '0') - 1;
             state = 1;
         } else
-            cout << "Неверно введена координата (цифра)" << endl;
+            cout << "Неправильно введена координата(цифра)" << endl;
     }
 }
 
@@ -272,6 +266,10 @@ void kill_ship(
         int& letter,
         int& number)
 {
+    const int up = 8;
+    const int down = 2;
+    const int left_ = 4;
+    const int right_ = 6;
     int route = 0;
     int n = size - 1;
     int N = 0, S = 0, W = 0, E = 0;
@@ -432,7 +430,10 @@ void move(
         int** field_P2_ship,
         int** field_P2_move,
         int size,
-        int mode)
+        int mode,
+        int& win,
+        char* surname,
+        char* surname2)
 {
     int queue = rand() % 2 + 1;
     int sel = queue;
@@ -446,8 +447,8 @@ void move(
         print_field(field_P1_move, field_P1_ship, field_P2_move, size);
         int number, letter;
         if (mode == 1) {
-            cout << "Ходит игрок " << queue << endl;
             if (queue == 1) {
+                cout << "Ходит игрок " << surname << endl;
                 input_ship(letter, number, size);
                 move_state(
                         field_P1_move,
@@ -460,6 +461,7 @@ void move(
             }
 
             else {
+                cout << "Ходит игрок " << surname2 << endl;
                 Computer_move(
                         field_P2_move,
                         field_P1_ship,
@@ -475,8 +477,8 @@ void move(
             print_field(field_P1_move, field_P1_ship, field_P2_move, size);
         } else {
             print_field_move2(field_P1_move, field_P2_move, size);
-            cout << "Ходит игрок " << queue << endl;
             if (queue == 1) {
+                cout << "Ходит игрок " << surname << endl;
                 input_ship(letter, number, size);
                 move_state(
                         field_P1_move,
@@ -489,6 +491,7 @@ void move(
             }
 
             else {
+                cout << "Ходит игрок " << surname2 << endl;
                 input_ship(letter, number, size);
                 move_state(
                         field_P2_move,
@@ -501,9 +504,11 @@ void move(
             }
             print_field_move2(field_P1_move, field_P2_move, size);
         }
-
-        cout << "Ходит игрок " << queue << endl;
-        cout << "Ход:" << char(65 + letter) << number + 1 << endl;
+        if (queue == 1)
+            cout << "Ходит игрок " << surname << endl;
+        else
+            cout << "Ходит игрок " << surname2 << endl;
+        cout << "ход:" << char(65 + letter) << number + 1 << endl;
         if (murderer == 0 && queue == 1) {
             queue = 2;
         } else if (murderer == 0 && queue == 2) {
@@ -511,22 +516,32 @@ void move(
         }
         switch (state) {
         case 0:
-            cout << "Мимо" << endl;
+            cout << "мимо" << endl;
             break;
         case 1:
-            cout << "Попал" << endl;
+            cout << "попал" << endl;
             break;
         case 2:
-            cout << "Убил" << endl;
+            cout << "убил" << endl;
             break;
         case 3:
-            cout << "Повтор" << endl;
+            cout << "повтор" << endl;
             break;
         }
         if (end(field_P1_ship, field_P2_ship, size, queue) == 0)
             break;
         system("pause");
     }
-    cout << "Победил игрок № " << queue << endl;
-    print(size, field_P2_ship);
+    if (queue == 1) {
+        cout << "Победил " << surname << endl;
+        if (mode == 2) {
+            print(size, field_P1_ship);
+        }
+    } else {
+        cout << "Победил " << surname2 << endl;
+        if (mode == 2) {
+            print(size, field_P2_ship);
+        }
+    }
+    win = queue;
 }
