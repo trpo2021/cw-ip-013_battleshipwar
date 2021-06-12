@@ -203,6 +203,7 @@ int checkRoute(int letter, int number, int route, int sizeShip, int size)
             return 0;
         break;
     }
+    return 0;
 }
 void shipInput(
         int& letter,
@@ -214,10 +215,6 @@ void shipInput(
         int** field_M)
 {
     const int easy_size = 10;
-    const int single_deck = 4;
-    const int double_deck = 3;
-    const int three_deck = 2;
-    const int four_deck = 1;
     const int up = 8;
     const int down = 2;
     const int left_ = 4;
@@ -290,6 +287,7 @@ void shipInput(
 }
 void createshipPL(int size, int** field_M)
 {
+    const int down = 2;
     const int easy_size = 10;
     const int single_deck = 4;
     const int double_deck = 3;
@@ -308,7 +306,7 @@ void createshipPL(int size, int** field_M)
         cout << "Введите координату однопалубного корабля(например:D2)" << endl;
         int letter;
         int number;
-        int route = 2;
+        int route = down;
         sizeShip = 1;
         state = 0;
         cout << i + 1 << " корабль" << endl;
@@ -368,6 +366,11 @@ void createshipPL(int size, int** field_M)
 
 void createshipRAND(int size, int** field_M)
 {
+const int single_deck = 4;
+    const int double_deck = 3;
+    const int three_deck = 2;
+    const int four_deck = 1;
+    const int down = 2;
     const int easy_size = 10;
     int state = 0;
     int changeQ;
