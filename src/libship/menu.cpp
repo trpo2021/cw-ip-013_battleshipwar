@@ -1,6 +1,6 @@
-#include "assistance.h"
-#include "move.h"
-#include "ranking.h"
+#include "libship/assistance.h"
+#include "libship/move.h"
+#include "libship/ranking.h"
 #include <unistd.h>
 #include <iostream>
 #include <locale.h>
