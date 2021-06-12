@@ -1,5 +1,5 @@
-#include "assistance.h"
-#include "ranking.h"
+#include "libship/assistance.h"
+
 #include <iostream>
 #include <locale.h>
 #include <math.h>
@@ -12,7 +12,7 @@ using namespace std;
 void input_ship(int& letter, int& number, int size)
 {
     const int easy_size = 10;
-    int state = 0, part_state = 0;
+    int state = 0;
     char end_letter;
     int end_number;
     if (size == easy_size) {
@@ -56,8 +56,6 @@ void input_ship(int& letter, int& number, int size)
 
 int end(int** field_P1_ship, int** field_P2_ship, int size, int sel)
 {
-    int count = 0;
-
     if (sel == 1) {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -267,9 +265,9 @@ void kill_ship(
         int& number)
 {
     const int up = 8;
-    const int down = 2;
+
     const int left_ = 4;
-    const int right_ = 6;
+
     int route = 0;
     int n = size - 1;
     int N = 0, S = 0, W = 0, E = 0;
@@ -383,7 +381,7 @@ void Computer_move(
         int& number)
 {
     int status = 0;
-    int n = size - 1;
+
     while (status == 0) {
         if (died == 1) {
             kill_ship(field_P1_move, size, let_rep, num_rep, letter, number);
@@ -436,13 +434,13 @@ void move(
         char* surname2)
 {
     int queue = rand() % 2 + 1;
-    int sel = queue;
+
     int state;
     int murderer = 0;
     int let_rep = -1;
     int num_rep = -1;
     int died = 0;
-    int route1 = 0;
+
     while (1) {
         print_field(field_P1_move, field_P1_ship, field_P2_move, size);
         int number, letter;
