@@ -15,14 +15,14 @@ void zeroing(int size,int**field)
 void print(int size,int**field_M)
 {
 	cout << "    ";
-	char M[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+	char M[15] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K','L','M','N','O'};
     for (int i = 0; i < size; i++) {
         cout << M[i] << " ";
     }	
     cout << endl;
 	 int k=1;
     for (int i = 0; i < size; i++) {
-    	if(k>=size)
+    	if(k>=10)
     	{
     		cout << " " << k << " ";
     		for (int j = 0; j < size; j++)
@@ -51,10 +51,18 @@ void print(int size,int**field_M)
 void print_field(int**field_P1_move,int**field_P1_ship,int**field_P2_move,int size)
 {
 	system("CLS");
-	cout<<"èãðîê 1"<<endl;
+	cout<<"Ð˜Ð³Ñ€Ð¾Ðº 1"<<endl;
 	print(size, field_P1_move);
-	cout<<"Âàøè êîðàáëè"<<endl;
+	cout<<"Ð’Ð°ÑˆÐ¸ ÐºÐ¾Ñ€Ð°Ð±Ð»Ð¸"<<endl;
 	print(size,field_P1_ship);
-	cout<<"èãðîê 2"<<endl;
+	cout<<"Ð˜Ð³Ñ€Ð¾Ðº 2"<<endl;
+	print(size, field_P2_move);
+}
+void print_field_move2(int**field_P1_move,int**field_P2_move,int size)
+{
+	system("CLS");
+	cout<<"Ð˜Ð³Ñ€Ð¾Ðº 1"<<endl;
+	print(size, field_P1_move);
+	cout<<"Ð˜Ð³Ñ€Ð¾Ðº 2"<<endl;
 	print(size, field_P2_move);
 }
