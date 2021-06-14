@@ -1,4 +1,6 @@
 main
+test
+ship
 *.o
 *.d
 *.a
