@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 using namespace std;
 
 int recordingShip(
@@ -28,12 +29,15 @@ int recordingShip(
             k = i;
             i2 = number + sizeShip;
             k2 = number + sizeShip - 1;
-        } else if (number == size - 1 || number == size - sizeShip) {
+        } else if (number > size - sizeShip)
+            fl = 1;
+        else if (number == size - 1 || number == size - sizeShip) {
             i = number - 1;
             k = number;
             i2 = size - 1;
             k2 = i2;
-        } else if (number != 0 && number != size - 1) {
+        } else if (
+                number != 0 && number != size - 1 && number < size - sizeShip) {
             i = number - 1;
             i2 = number + sizeShip;
             k = number;
@@ -215,15 +219,16 @@ void shipInput(
         int** field_M)
 {
     const int easy_size = 10;
-    const int up = 8;
-    const int down = 2;
-    const int left_ = 4;
-    const int right_ = 6;
+
     int end_letter;
     if (size == easy_size)
         end_letter = 'J';
     else
         end_letter = 'O';
+    const int up = 8;
+    const int down = 2;
+    const int left_ = 4;
+    const int right_ = 6;
     while (state == 0) {
         cin.clear();
         cin.sync();
@@ -280,9 +285,6 @@ void shipInput(
             if (state == 0)
                 cout << "Корабль слишком близко к другому" << endl;
         }
-
-        if (state == 1)
-            ;
     }
 }
 void createshipPL(int size, int** field_M)
@@ -293,7 +295,7 @@ void createshipPL(int size, int** field_M)
     const int double_deck = 3;
     const int three_deck = 2;
     const int four_deck = 1;
-    system("CLS");
+    system("clear");
     print(size, field_M);
     int state;
     int sizeShip;
@@ -312,7 +314,7 @@ void createshipPL(int size, int** field_M)
         cout << i + 1 << " корабль" << endl;
 
         shipInput(letter, number, route, state, size, sizeShip, field_M);
-        system("CLS");
+        system("clear");
         print(size, field_M);
     }
 
@@ -327,7 +329,7 @@ void createshipPL(int size, int** field_M)
         state = 0;
         cout << i + 1 << " корабль" << endl;
         shipInput(letter, number, route, state, size, sizeShip, field_M);
-        system("CLS");
+        system("clear");
         print(size, field_M);
     }
 
@@ -343,7 +345,7 @@ void createshipPL(int size, int** field_M)
         cout << i + 1 << " корабль" << endl;
 
         shipInput(letter, number, route, state, size, sizeShip, field_M);
-        system("CLS");
+        system("clear");
         print(size, field_M);
     }
 
@@ -359,14 +361,14 @@ void createshipPL(int size, int** field_M)
         cout << i + 1 << " корабль" << endl;
 
         shipInput(letter, number, route, state, size, sizeShip, field_M);
-        system("CLS");
+        system("clear");
         print(size, field_M);
     }
 }
 
 void createshipRAND(int size, int** field_M)
 {
-const int single_deck = 4;
+    const int single_deck = 4;
     const int double_deck = 3;
     const int three_deck = 2;
     const int four_deck = 1;

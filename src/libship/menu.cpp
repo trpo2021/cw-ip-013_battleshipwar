@@ -1,13 +1,13 @@
 #include "libship/assistance.h"
 #include "libship/move.h"
 #include "libship/ranking.h"
-#include <unistd.h>
 #include <iostream>
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
 using namespace std;
 
 void play()
@@ -31,7 +31,7 @@ void play()
         }
     }
     state = 0;
-    system("CLS");
+    system("clear");
     cout << "Введите 1 для классической игры, 2 для усложненной" << endl;
     while (state == 0) {
         char sizeA;
@@ -47,7 +47,7 @@ void play()
         }
     }
     state = 0;
-    system("CLS");
+    system("clear");
 
     int** field_P1_s = new int*[sizeField];
     int** field_P1_m = new int*[sizeField];
@@ -66,15 +66,13 @@ void play()
 
     int regime;
     char surname[30];
-    // char surname2[30];
     cout << "Первый игрок, введите свое имя на английской раскладке, пожалуйста"
          << endl;
     cin >> surname;
     cin.clear();
     cin.sync();
-    // cout<<surname<<endl;
     while (strcmp(surname, "Computer") == 0 || strlen(surname) >= 30) {
-        system("CLS");
+        system("clear");
         cout << "Ваше имя совпадает с именем другого игрока или слишком длинное"
              << endl;
         cout << "Первый игрок, введите свое имя на английской раскладке, "
@@ -84,7 +82,7 @@ void play()
         cin.clear();
         cin.sync();
     }
-    system("CLS");
+    system("clear");
     cout << surname
          << " как вы будете заполнять свое поле? 1 - вручную, 2 - автоматически"
          << endl;
@@ -99,26 +97,26 @@ void play()
         }
     }
     state = 0;
-    system("CLS");
+    system("clear");
     if (regime == 1)
         createshipPL(sizeField, field_P1_s);
     else {
         createshipRAND(sizeField, field_P1_s);
         if (mode == 2) {
             cout << "Внимание сейчас будет показано поле " << surname << endl;
-            system("pause");
-            system("CLS");
+            sleep(1);
+            system("clear");
 
             cout << "Обратный отсчет!" << endl;
             for (int i = 10; i >= 0; i--) {
                 cout << i << endl;
-                sleep(100);
+                sleep(1);
             }
-            system("CLS");
+            system("clear");
 
             print(sizeField, field_P1_s);
-            system("pause");
-            system("CLS");
+            sleep(3);
+            system("clear");
         }
     }
 
@@ -131,7 +129,7 @@ void play()
         cin >> surname2;
         while (strcmp(surname2, "Computer") == 0
                || strcmp(surname, surname2) == 0 || strlen(surname) >= 30) {
-            system("CLS");
+            system("clear");
             cout << "Ваше имя совпадает с именем другого игрока или слишком "
                     "длинное"
                  << endl;
@@ -140,7 +138,7 @@ void play()
                  << endl;
             cin >> surname2;
         }
-        system("CLS");
+        system("clear");
         cout << surname2
              << " как вы будете заполнять свое поле? 1 - вручную, 2 - "
                 "автоматически"
@@ -157,23 +155,23 @@ void play()
             }
         }
         state = 0;
-        system("CLS");
+        system("clear");
         if (regime == 1)
             createshipPL(sizeField, field_P2_s);
         else {
             createshipRAND(sizeField, field_P2_s);
             cout << "Внимание сейчас будет показано поле " << surname2 << endl;
-            system("pause");
-            system("CLS");
+            sleep(1);
+            system("clear");
             cout << "Обратный отсчет!" << endl;
             for (int i = 10; i >= 0; i--) {
                 cout << i << endl;
-                sleep(100);
+                sleep(3);
             }
-            system("CLS");
+            system("clear");
             print(sizeField, field_P2_s);
-            system("pause");
-            system("CLS");
+            sleep(1);
+            system("clear");
         }
         move(field_P1_s,
              field_P1_m,
@@ -184,9 +182,7 @@ void play()
              win,
              surname,
              surname2);
-    }
-    ////////////////
-    else if (mode == 1) {
+    } else if (mode == 1) {
         char surname2[30] = "Computer";
         createshipRAND(sizeField, field_P2_s);
         move(field_P1_s,
@@ -210,18 +206,18 @@ int about_play()
     cout << "Эта игра - консольная версия классического морского боя. "
             "Программа имеет 2 режима игры и 2 уровня сложности."
          << endl;
-    system("pause");
+    sleep(1);
     cout << "1 режим игры - это игра с компьютером" << endl;
-    system("pause");
+    sleep(1);
     cout << "2 режим игры - это игра с другим пользователем" << endl;
-    system("pause");
+    sleep(1);
     cout << "Классический уровень - поле 10х10 на котором расставляется 10 "
             "кораблей"
          << endl;
-    system("pause");
+    sleep(1);
     cout << "Усложненный уровень - поле 15х15 на котором расставляется 14 "
             "кораблей"
          << endl;
-    system("pause");
+    sleep(1);
     return 0;
 }

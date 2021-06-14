@@ -1,16 +1,17 @@
+#include "libship/menu.h"
 #include <iostream>
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "libship/menu.h"
+#include <unistd.h>
 using namespace std;
 
 int main()
 {
     setlocale(LC_ALL, "Russian");
     cout << "Добро пожаловать в игру Морской бой!" << endl;
-    system("pause");
-    system("CLS");
+    sleep(1);
+    system("clear");
     cout << "Начать игру - 1" << endl;
     cout << "Об игре - 2" << endl;
     cout << "Выход - 3" << endl;
@@ -20,15 +21,15 @@ int main()
         cin.sync();
         cin >> choice;
         if (choice == '1') {
-            system("CLS");
+            system("clear");
             play();
         } else if (choice == '2') {
-            system("CLS");
+            system("clear");
             about_play();
         } else if (choice == '3') {
             return 0;
         }
-        system("CLS");
+        system("clear");
         cout << "Начать игру - 1" << endl;
         cout << "Об игре - 2" << endl;
         cout << "Выход - 3" << endl;
