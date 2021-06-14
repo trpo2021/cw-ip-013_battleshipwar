@@ -1,13 +1,13 @@
 {
   "tests": [
     {
-      "name": "No binary files",
+      "name": "Should not commit binary files",
       "setup": "",
-      "run": "find . -exec file '{}' \\; | grep  ELF ; test $? -eq 1",
+      "run": "find . -exec file '{}' \\; | egrep  '(ELF|PE32)' ; test $? -eq 1",
       "input": "",
       "output": "",
       "comparison": "included",
-      "timeout": 2,
+      "timeout": 10,
       "points": null
     }
   ]
