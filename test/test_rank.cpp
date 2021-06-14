@@ -1486,4 +1486,3 @@ CTEST(recShip_test, near_ship_leftr0)
     ASSERT_EQUAL(
             recordingShip(size, field_M, sizeShip, letter, number, route), 0);
 }
-

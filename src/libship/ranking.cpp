@@ -460,4 +460,3 @@ void createshipRAND(int size, int** field_M)
         state = 0;
     }
 }
-
