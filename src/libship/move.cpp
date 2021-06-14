@@ -1,5 +1,4 @@
 #include "libship/assistance.h"
-
 #include <iostream>
 #include <locale.h>
 #include <math.h>
